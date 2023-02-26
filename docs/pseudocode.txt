@@ -1,27 +1,29 @@
-#Prompt the user for their user ID.
+WRITE "Please enter your user ID"
 
-#Respond by saying Welcome <name> and asking them to select an option; 1, 2, 3, or q.
-    #1 for Deposit
-    #2 for Withdraw
-    #3 for Balance
-    #q to Quit
+READ user ID
+    IF userID IN userinfo
+    SET choice = NONE
+    WHILE choice IS NOT q
+    WRITE "Welcome username, please select from the following actions:"
+                        1 to make a Deposit
+                        2 to make a Withdrawal
+                        3 to check your Balance
+                        q to Quit"
+    READ choice (1,2,3,q)
 
-#Prompt them for which account they would like to access.
-#Then supply the account number and account type and the user needs to enter the correct option.
+IF choice = q then return to prompt for userID
+ELSE WRITE " Please select an account
+                1 acct no. (acct type)
+                2 acct no. (acct type)
+                ....
+READ account
 
-#Once the user selects an option and an account, prompt them to enter their chosen amount if option 1 was selected.
-    #If option 2 was selected show the user’s balance.
-        #Furthermore, you must ensure that the user has enough money. If not start back at step 1.
+IF choice = 1
+WRITE "Please enter amount to deposit"
 
-#At the end of the transaction summarize users account information and then prompt them with starting at step 1 again.
-
-#Keep doing step 1 to 5 until the user types ‘q’.
-
-#Once they enter ‘q’,
-    #Print out all accounts and balances.
-    #Write the result to your file OpeningAccountsData.txt(overriding previous data).
-    #When you rerun the project, the new balances should be displayed.
-
-#Note if the user provides the wrong input information,
-#they should receive the reply “Wrong Input” plus an appropriate message,
-#additionally you must return the user back to step 1 (Prompting the user for their account number).
+ELSE IF choice = 2
+WRITE account balance
+WRITE "Please enter amount to withdraw"
+READ withdrawal amount
+    IF withdrawal amount > account balance
+    WRITE "Error - Wrong Input. Amount entered {withdrawal amount} is greater than amount in account {account balance}"
