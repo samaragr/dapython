@@ -1,60 +1,55 @@
 READ userinfo and WRITE to list of users
-READ acct info and WRITE to list of accts
+READ account info and WRITE to list of accounts
 
-WRITE "Please enter your user ID"
+PRINT "Please enter your user ID"
+INPUT user id
+    iterate through list of users
+    IF user id is equal to user in list
+        SET current user and break loop
+    ELSE return error message and return to start
 
-    # iterate through users
-    # for each user check id matches input id
-    # if id matches set that as the current user and break loop
-
-READ user ID
-    IF userID IN userinfo
-    SET choice = NONE
-    WHILE choice IS NOT q
-    WRITE "Welcome username, please select from the following actions:"
-                        1 to make a Deposit
-                        2 to make a Withdrawal
-                        3 to check your Balance
-                        q to Quit"
-    READ choice (1,2,3,q)
-
-IF choice = q then return to prompt for userID
-ELSE WRITE " Please select an account
-                1 acct no. (acct type)
-                2 acct no. (acct type)
-                ....
-READ account
+SET choice = NONE
+WHILE choice IS NOT q
+WRITE "Welcome <current user>, please select from the following actions:"
+                    1 to make a Deposit
+                    2 to make a Withdrawal
+                    3 to check your Balance
+                    q to Quit"
+INPUT choice (1,2,3,q)
 
 IF choice = 1
-WRITE "Please enter amount to deposit"
-
-        # print accounts
-        # allow user to choose account
-        # prompt user to enter deposit amt
-        # add deposited amount to balance
+    PRINT " Please select an account to deposit to
+                1 acct no. (acct type)
+                2 acct no. (acct type)
+                ...."
+    INPUT account choice
+    PRINT "Please enter amount to deposit"
+    INPUT deposit amount and add to current balance
+ENDIF
 
 ELSE IF choice = 2
-WRITE account balance
-WRITE "Please enter amount to withdraw"
+    PRINT " Please select an account to withdraw from
+                1 acct no. (acct type)
+                2 acct no. (acct type)
+                ...."
+    INPUT account choice
+    PRINT "Please enter amount to withdraw"
+    INPUT withdrawal amount
+        IF withdrawal amount is not greater than current balance
+            subtract withdrawal amount from current balance
+        ELSE
+            PRINT error message with current balance and return to start
+ENDIF
 
+ELSE IF choice = 3
+    PRINT " Please select an account to view
+                1 acct no. (acct type)
+                2 acct no. (acct type)
+                ...."
+    INPUT account choice
+    PRINT current balance and return to start
+ENDIF
 
-        # print accounts
-        # allow user to choose account
-        # prompt user to enter withdrawal smt
-        # check withdrawal amt is not greater than current balance
-        # remove withdrawn amount from balance
-
-READ withdrawal amount
-    IF withdrawal amount > account balance
-    WRITE "Error - Wrong Input. Amount entered {withdrawal amount} is greater than amount in account {account balance}"
-
-Balance
-        # print accounts
-        # allow user to choose account
-        # display current balance
-
-SAVE
-        # get current acct balances
-        # open file
-        # write header
-        # for each acct, write info
+IF choice = q
+    PRINT all accounts and balances
+    WRITE all current balances to account info file

@@ -3,12 +3,12 @@ import csv
 
 
 class ATM:
-    # Loads data from data directory into list
+    # Loads data from data directory into lists. A temporary list is created in order to change "|||" to "|"
+    # so the csv method can be used as delimiter must be 1 char
     def __init__(self):
         self.users = []
         self.accounts = []
         self.transacting_account = None
-        # for every user create an instance of User
         with open(os.path.join(os.getcwd(), '../data/UserInfo.txt')) as load_file:
             reader = csv.DictReader(load_file, delimiter=",")
             for row in reader:
@@ -30,8 +30,8 @@ class ATM:
                 new_account = SavingsAccount(row["AccountOwnerID"], row["AccountNumber"], row["OpeningBalance"])
             self.accounts.append(new_account)
 
-    # Runs the ATM program
     def run(self):
+        """Runs the ATM program"""
         choice = None
         while choice != "q":
             print("Please enter your User ID:")
@@ -44,7 +44,6 @@ class ATM:
             if current_user is None:
                 print("Wrong input. Invalid user ID")
                 continue
-
             user_accounts = self.get_user_accounts(current_user)
             welcome_msg = """
     Welcome {}. Please enter an Option
@@ -67,24 +66,24 @@ class ATM:
                 print(str(account) + ":\t$" + str(account.balance))
             self.save_accounts()
 
-    # Writes new account info back to file in original format
     def save_accounts(self):
+        """Writes new account info back to file in original format"""
         with open(os.path.join(os.getcwd(), '../data/OpeningAccountsData.txt'), "w") as load_file:
             load_file.write("AccountOwnerID|||AccountNumber|||AccountType|||OpeningBalance")
             for account in self.accounts:
                 load_file.write("\n{0}|||{1}|||{2}|||{3}".format
                                 (account.owner, account.number, account.type, account.balance))
 
-    # returns list of accounts associated with current user
     def get_user_accounts(self, user):
+        """returns list of accounts associated with current user"""
         user_accounts = []
         for account in self.accounts:
             if user.id == account.owner:
                 user_accounts.append(account)
         return user_accounts
 
-    # Prints out all account options
     def get_account_options(self, accounts):
+        """Prints all user accounts for the current user"""
         account_options = ""
         n = 1
         for account in accounts:
@@ -94,11 +93,11 @@ class ATM:
         return account_options
 
     def deposit(self, accounts):
+        """Prompts for an account to deposit into. If it exists moves to deposit transaction method"""
         account_options = self.get_account_options(accounts)
         deposit_msg = "Which account do you wish to deposit to:" + account_options
         print(deposit_msg)
         account_choice = int(input()) - 1
-        # self.transacting_account = accounts[int(input()) - 1]
         if account_choice > len(accounts) - 1 or account_choice < 0:
             print("Wrong input. Invalid account choice")
         else:
@@ -111,6 +110,7 @@ class ATM:
         self.transacting_account.balance += deposit_amount
 
     def withdrawal(self, accounts):
+        """Prompts for an account to withdraw from. If it exists moves to withdrawal transaction method"""
         account_options = self.get_account_options(accounts)
         withdrawal_msg = "Which account do you wish to withdraw from:" + account_options
         print(withdrawal_msg)
@@ -133,7 +133,7 @@ class ATM:
 
     def balance(self, accounts):
         account_options = self.get_account_options(accounts)
-        balance_msg = "Which account to you wish to view?" + account_options
+        balance_msg = "Which account do you wish to view?" + account_options
         print(balance_msg)
         account_choice = int(input()) - 1
         if account_choice > len(accounts) - 1 or account_choice < 0:
