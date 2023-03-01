@@ -1,4 +1,11 @@
+READ userinfo and WRITE to list of users
+READ acct info and WRITE to list of accts
+
 WRITE "Please enter your user ID"
+
+    # iterate through users
+    # for each user check id matches input id
+    # if id matches set that as the current user and break loop
 
 READ user ID
     IF userID IN userinfo
@@ -21,9 +28,33 @@ READ account
 IF choice = 1
 WRITE "Please enter amount to deposit"
 
+        # print accounts
+        # allow user to choose account
+        # prompt user to enter deposit amt
+        # add deposited amount to balance
+
 ELSE IF choice = 2
 WRITE account balance
 WRITE "Please enter amount to withdraw"
+
+
+        # print accounts
+        # allow user to choose account
+        # prompt user to enter withdrawal smt
+        # check withdrawal amt is not greater than current balance
+        # remove withdrawn amount from balance
+
 READ withdrawal amount
     IF withdrawal amount > account balance
     WRITE "Error - Wrong Input. Amount entered {withdrawal amount} is greater than amount in account {account balance}"
+
+Balance
+        # print accounts
+        # allow user to choose account
+        # display current balance
+
+SAVE
+        # get current acct balances
+        # open file
+        # write header
+        # for each acct, write info
