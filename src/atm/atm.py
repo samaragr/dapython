@@ -9,14 +9,14 @@ class ATM:
         self.users = []
         self.accounts = []
         self.transacting_account = None
-        with open(os.path.join(os.getcwd(), '../data/UserInfo.txt')) as load_file:
+        with open(os.path.join(os.getcwd(), '../../data/UserInfo.txt')) as load_file:
             reader = csv.DictReader(load_file, delimiter=",")
             for row in reader:
                 new_user = User(row["FirstName"], row["Surname"], row["Mobile"], row["AccountOwnerID"])
                 self.users.append(new_user)
 
         raw_accounts = []
-        with open(os.path.join(os.getcwd(), '../data/OpeningAccountsData.txt')) as load_file:
+        with open(os.path.join(os.getcwd(), '../../data/OpeningAccountsData.txt')) as load_file:
             for line in load_file:
                 line = line.replace("|||", "|")
                 raw_accounts.append(line)
@@ -68,7 +68,7 @@ class ATM:
 
     def save_accounts(self):
         """Writes new account info back to file in original format"""
-        with open(os.path.join(os.getcwd(), '../data/OpeningAccountsData.txt'), "w") as load_file:
+        with open(os.path.join(os.getcwd(), '../../data/OpeningAccountsData.txt'), "w") as load_file:
             load_file.write("AccountOwnerID|||AccountNumber|||AccountType|||OpeningBalance")
             for account in self.accounts:
                 load_file.write("\n{0}|||{1}|||{2}|||{3}".format
