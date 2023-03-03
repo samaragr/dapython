@@ -6,6 +6,7 @@ from atm.Account import Account
 from atm.ChequeAccount import ChequeAccount
 from atm.SavingsAccount import SavingsAccount
 
+
 class TestATM:
     @pytest.fixture
     def atm_fixture(self):
@@ -46,59 +47,6 @@ class TestATM:
 
         options = atm_fixture.get_account_options(account_option_fixture)
         assert options == expected_string
-
-
-
-    def setUp(self):
-        pass
-
-        # self.user_1 = User("John", "Doe", "0420666789", 123)
-        # self.account_1 = Account(123, "9264789", 100.00)
-
-    @classmethod
-    def tearDownClass(cls):
-        pass
-        # print('tearDownClass')
-
-    @classmethod
-    def setUpClass(cls):
-        pass
-        # cls.test_atm = ATM()
-        # print('setupClass')
-
-    def test_run(self):
-        pass
-
-    def test_save_accounts(self):
-        pass
-
-    def test_get_user_accounts(self):
-        pass
-
-
-    def test_get_account_options(self):
-        pass
-
-    def test_deposit(self):
-        pass
-
-    def test_deposit_amount(self):
-        pass
-
-
-    def test_withdrawal(self):
-        pass
-
-
-    def test_withdrawal_amount(self):
-        pass
-
-    def test_balance(self):
-        pass
-
-
-
-
 
 
 if __name__ == '__main__':
