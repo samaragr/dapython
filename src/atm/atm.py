@@ -1,5 +1,8 @@
-import os
+# import os
 import csv
+from User import User
+from ChequeAccount import ChequeAccount
+from SavingsAccount import SavingsAccount
 
 
 class ATM:
@@ -9,14 +12,16 @@ class ATM:
         self.users = []
         self.accounts = []
         self.transacting_account = None
-        with open(os.path.join(os.getcwd(), '../../data/UserInfo.txt')) as load_file:
+        # with open(os.path.join(os.getcwd(), '../../data/UserInfo.txt')) as load_file:
+        with open('/Users/samara/dev/dapython/data/UserInfo.txt') as load_file:
             reader = csv.DictReader(load_file, delimiter=",")
             for row in reader:
                 new_user = User(row["FirstName"], row["Surname"], row["Mobile"], row["AccountOwnerID"])
                 self.users.append(new_user)
 
         raw_accounts = []
-        with open(os.path.join(os.getcwd(), '../../data/OpeningAccountsData.txt')) as load_file:
+        # with open(os.path.join(os.getcwd(), '../../data/OpeningAccountsData.txt')) as load_file:
+        with open('/Users/samara/dev/dapython/data/OpeningAccountsData.txt') as load_file:
             for line in load_file:
                 line = line.replace("|||", "|")
                 raw_accounts.append(line)
@@ -68,7 +73,8 @@ class ATM:
 
     def save_accounts(self):
         """Writes new account info back to file in original format"""
-        with open(os.path.join(os.getcwd(), '../../data/OpeningAccountsData.txt'), "w") as load_file:
+        # with open(os.path.join(os.getcwd(), '../../data/OpeningAccountsData.txt'), "w") as load_file:
+        with open('/Users/samara/dev/dapython/data/OpeningAccountsData.txt', "w") as load_file:
             load_file.write("AccountOwnerID|||AccountNumber|||AccountType|||OpeningBalance")
             for account in self.accounts:
                 load_file.write("\n{0}|||{1}|||{2}|||{3}".format
@@ -141,47 +147,6 @@ class ATM:
         else:
             transacting_account = accounts[account_choice]
             print("Current balance for account " + str(transacting_account) + ": $" + str(transacting_account.balance))
-
-
-class User:
-    def __init__(self, first_name, last_name, mobile, owner_id):
-        self.first_name = first_name
-        self.last_name = last_name
-        self.id = owner_id
-        self.mobile = mobile
-
-    # translating object into str for printing (repr needed for lists)
-    def __str__(self):
-        return self.first_name + " " + self.last_name
-
-    def __repr__(self):
-        return self.__str__()
-
-
-class Account:
-    def __init__(self, owner_id, acct_no, balance):
-        self.owner = owner_id
-        self.number = acct_no
-        self.balance = float(balance)
-
-    def __str__(self):
-        return self.number + " (" + self.type + ")"
-
-    def __repr__(self):
-        return self.__str__()
-
-
-class ChequeAccount(Account):
-    def __init__(self, owner_id, acct_no, balance):
-        super().__init__(owner_id, acct_no, balance)
-        self.type = "Cheque"
-
-
-class SavingsAccount(Account):
-
-    def __init__(self, owner_id, acct_no, balance):
-        super().__init__(owner_id, acct_no, balance)
-        self.type = "Saving"
 
 
 ourATM = ATM()
