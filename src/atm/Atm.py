@@ -1,27 +1,27 @@
-# import os
+import os
 import csv
-from User import User
-from ChequeAccount import ChequeAccount
-from SavingsAccount import SavingsAccount
+from .User import User
+from .ChequeAccount import ChequeAccount
+from .SavingsAccount import SavingsAccount
 
 
 class ATM:
     # Loads data from data directory into lists. A temporary list is created in order to change "|||" to "|"
     # so the csv method can be used as delimiter must be 1 char
-    def __init__(self):
+    def __init__(self, userinfo_file, accounts_file):
+        self.userinfo_file = os.path.join(os.getcwd(), userinfo_file)
+        self.accounts_file = os.path.join(os.getcwd(), accounts_file)
         self.users = []
         self.accounts = []
         self.transacting_account = None
-        # with open(os.path.join(os.getcwd(), '../../data/UserInfo.txt')) as load_file:
-        with open('/Users/samara/dev/dapython/data/UserInfo.txt') as load_file:
+        with open(self.userinfo_file) as load_file:
             reader = csv.DictReader(load_file, delimiter=",")
             for row in reader:
                 new_user = User(row["FirstName"], row["Surname"], row["Mobile"], row["AccountOwnerID"])
                 self.users.append(new_user)
 
         raw_accounts = []
-        # with open(os.path.join(os.getcwd(), '../../data/OpeningAccountsData.txt')) as load_file:
-        with open('/Users/samara/dev/dapython/data/OpeningAccountsData.txt') as load_file:
+        with open(self.accounts_file) as load_file:
             for line in load_file:
                 line = line.replace("|||", "|")
                 raw_accounts.append(line)
@@ -73,12 +73,11 @@ class ATM:
 
     def save_accounts(self):
         """Writes new account info back to file in original format"""
-        # with open(os.path.join(os.getcwd(), '../../data/OpeningAccountsData.txt'), "w") as load_file:
-        with open('/Users/samara/dev/dapython/data/OpeningAccountsData.txt', "w") as load_file:
+        with open(self.accounts_file, "w") as load_file:
             load_file.write("AccountOwnerID|||AccountNumber|||AccountType|||OpeningBalance")
             for account in self.accounts:
                 load_file.write("\n{0}|||{1}|||{2}|||{3}".format
-                                (account.owner, account.number, account.type, account.balance))
+                                (account.owner, account.number, account.type, round(account.balance, 2)))
 
     def get_user_accounts(self, user):
         """returns list of accounts associated with current user"""
@@ -149,5 +148,6 @@ class ATM:
             print("Current balance for account " + str(transacting_account) + ": $" + str(transacting_account.balance))
 
 
-ourATM = ATM()
-ourATM.run()
+if __name__ == "__main__":
+    ourATM = ATM('data/UserInfo.txt', 'data/OpeningAccountsData.txt')
+    ourATM.run()

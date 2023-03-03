@@ -1,5 +1,4 @@
-from Account import Account
-
+from .Account import Account
 
 class SavingsAccount(Account):
 
